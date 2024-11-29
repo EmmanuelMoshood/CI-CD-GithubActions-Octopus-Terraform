@@ -1,9 +1,9 @@
 terraform {
   backend "azurerm" {
-    resource_group_name  = "demo.octopus.app"
-    storage_account_name = "octodemotfstate"
-    container_name       = "terraform-state"
-    key                  = "Webinar-RandomQuotes-#{Octopus.Environment.Name}.terraform.tfstate"
+    resource_group_name  = "rg-cac-devtest-dev"
+    storage_account_name = "cccterraformstatestorage"
+    container_name       = "poc-appservice"
+    key                  = "appservice-#{Octopus.Environment.Name}.terraform.tfstate"
   }
 }
 
@@ -13,12 +13,12 @@ provider "azurerm" {
 
 variable "resourcegroupname" {
   type = "string"
-  default = "demo.octopus.app"
+  default = "app-srv-rg"
 }
 
 variable "webappname" {
   type = "string"
-  default = "Webinar-RandomQuotes-#{Octopus.Environment.Name}"
+  default = "demoapp-#{Octopus.Environment.Name}"
 }
 
 variable "environment" {
@@ -28,22 +28,22 @@ variable "environment" {
 
 variable "location" {
   type = "string"
-  default = "south central us"
+  default = "Canada Central"
 }
 
 variable "region" {
   type = "string"
-  default = "southcentralus"
+  default = "canadacentral"
 }
 
 variable "owner" {
   type = "string"
-  default = "Webinar-RandomQuotes-#{Octopus.Environment.Name}"
+  default = "demoapp-#{Octopus.Environment.Name}"
 }
 
 variable "description" {
   type = "string"
-  default = "RandomQuotes Website"
+  default = "demoapp Website"
 }
 
 resource "azurerm_app_service_plan" "main" {
@@ -72,7 +72,7 @@ resource "azurerm_app_service" "main" {
   app_service_plan_id = "${azurerm_app_service_plan.main.id}"
 
   site_config {
-    linux_fx_version = "DOTNETCORE|3.1"
+    linux_fx_version = "DOTNETCORE|6.6"
   }
 
   tags = {
